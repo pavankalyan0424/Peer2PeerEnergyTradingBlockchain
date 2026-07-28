@@ -45,6 +45,10 @@ contract EnergyMarketplace {
 
     event ListingCancelled(uint256 indexed listingId, address indexed seller);
 
+    function getListingCount() external view returns (uint256) {
+        return nextListingId;
+    }
+
     function createListing(uint256 energyUnits, uint256 pricePerUnit) external returns (uint256) {
         if (energyUnits == 0) {
             revert InvalidEnergyUnits();

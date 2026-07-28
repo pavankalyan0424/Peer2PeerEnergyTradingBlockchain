@@ -1,9 +1,8 @@
 # Token Service APIs
 
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
 
-from app.blockchain.token import token_service
+from app.services.token_service import token_service
 from app.schemas.requests import ApproveRequest, MintRequest
 from app.schemas.responses import TransactionResponse
 

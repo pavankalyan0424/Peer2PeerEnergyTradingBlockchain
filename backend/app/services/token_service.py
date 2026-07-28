@@ -3,12 +3,14 @@ from web3 import Web3
 
 from app.blockchain.loader import load_contract
 from app.schemas.responses import TransactionResponse
+from app.services.base_blockchain_service import BaseBlockchainService
 
 
-class TokenService:
+class TokenService(BaseBlockchainService):
 
     def __init__(self):
-        self.contract = blockchain_client.get_contract("EnergyToken")
+        contract_name = "EnergyToken"
+        super().__init__(contract_name)
         self.marketplace_address = load_contract("EnergyMarketplace").address
 
     def total_supply(self) -> int:
@@ -24,27 +26,17 @@ class TokenService:
         return int(balance)
 
     def mint(self, address: str, amount: int):
-        txn = self.contract.functions.mint(address, amount).build_transaction(
-            {
-                "from": blockchain_client.wallet_address,
-                "nonce": blockchain_client.get_nonce(),
-            }
+        receipt = self._execute_contract_function(
+            self.contract.functions.mint(address, amount)
         )
-        receipt = blockchain_client.send_transaction(txn)
         return TransactionResponse(
             transaction_hash=receipt.transactionHash.hex(), status=receipt.status
         )
 
     def approve(self, amount: int):
-        txn = self.contract.functions.approve(
-            self.marketplace_address, amount
-        ).build_transaction(
-            {
-                "from": blockchain_client.wallet_address,
-                "nonce": blockchain_client.get_nonce(),
-            }
+        receipt = self._execute_contract_function(
+            self.contract.functions.approve(self.marketplace_address, amount)
         )
-        receipt = blockchain_client.send_transaction(txn)
         return txn_receipt_to_txn_response(receipt)
 
     def allowance(self):

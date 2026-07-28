@@ -39,7 +39,7 @@ contract EnergyMarketplace {
 
     uint256 private nextListingId;
 
-    event ListingCreated(uint256 indexed ListingId, address indexed seller, uint256 energyUnits, uint256 pricePerUnit);
+    event ListingCreated(uint256 indexed listingId, address indexed seller, uint256 energyUnits, uint256 pricePerUnit);
 
     event EnergyPurchased(uint256 indexed listingId, address indexed buyer, uint256 energyUnits, uint256 totalPrice);
 

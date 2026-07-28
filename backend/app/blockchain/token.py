@@ -1,13 +1,15 @@
-from app.blockchain.client import blockchain_client
+from app.blockchain.client import blockchain_client, txn_receipt_to_txn_response
 from web3 import Web3
 
 from app.blockchain.loader import load_contract
+from app.schemas.responses import TransactionResponse
 
 
 class TokenService:
 
     def __init__(self):
         self.contract = blockchain_client.get_contract("EnergyToken")
+        self.marketplace_address = load_contract("EnergyMarketplace").address
 
     def total_supply(self) -> int:
         supply = int(self.contract.functions.totalSupply().call())
@@ -29,15 +31,13 @@ class TokenService:
             }
         )
         receipt = blockchain_client.send_transaction(txn)
-        return {
-            "transactionHash": receipt.transactionHash.hex(),
-            "status": receipt.status,
-        }
+        return TransactionResponse(
+            transaction_hash=receipt.transactionHash.hex(), status=receipt.status
+        )
 
     def approve(self, amount: int):
-        marketplace_address = load_contract("EnergyMarketplace").address
         txn = self.contract.functions.approve(
-            marketplace_address, amount
+            self.marketplace_address, amount
         ).build_transaction(
             {
                 "from": blockchain_client.wallet_address,
@@ -45,15 +45,11 @@ class TokenService:
             }
         )
         receipt = blockchain_client.send_transaction(txn)
-        return {
-            "transactionHash": receipt.transactionHash.hex(),
-            "status": receipt.status,
-        }
+        return txn_receipt_to_txn_response(receipt)
 
     def allowance(self):
         owner = blockchain_client.wallet_address
-        spender = load_contract("EnergyMarketplace").address
-        return self.contract.functions.allowance(owner, spender).call()
+        return self.contract.functions.allowance(owner, self.marketplace_address).call()
 
 
 token_service = TokenService()

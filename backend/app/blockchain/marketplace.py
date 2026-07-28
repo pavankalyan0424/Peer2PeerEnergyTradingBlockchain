@@ -1,4 +1,14 @@
-from app.blockchain.client import blockchain_client
+from enum import IntEnum
+
+from app.blockchain.client import blockchain_client, txn_receipt_to_txn_response
+from app.schemas.responses import ListingResponse
+
+
+class ListingStatus(IntEnum):
+    NONE = 0
+    ACTIVE = 1
+    SOLD_OUT = 2
+    CANCELLED = 3
 
 
 class MarketplaceService:
@@ -7,14 +17,14 @@ class MarketplaceService:
 
     def _listing_blockchain_to_api(self, listing_id, listing):
         seller, initial, remaining, price, status = listing
-        return {
-            "listingId": listing_id,
-            "seller": seller,
-            "initialEnergy": initial,
-            "remaniningEnergy": remaining,
-            "pricePerUnit": price,
-            "status": status,
-        }
+        return ListingResponse(
+            listing_id=listing_id,
+            seller=seller,
+            initial_energy=initial,
+            remaining_energy=remaining,
+            price_per_unit=price,
+            status=status,
+        )
 
     def get_all_listings(self):
         count = self.contract.functions.getListingCount().call()
@@ -24,7 +34,7 @@ class MarketplaceService:
 
             listing_resp = self._listing_blockchain_to_api(i, listing)
 
-            if listing_resp["status"] == 0:  # NONE
+            if listing_resp.status == ListingStatus.NONE:  # NONE
                 continue
 
             listings.append(listing_resp)
@@ -46,10 +56,7 @@ class MarketplaceService:
         )
 
         receipt = blockchain_client.send_transaction(txn)
-        return {
-            "transactionHash": receipt.transactionHash.hex(),
-            "status": receipt.status,
-        }
+        return txn_receipt_to_txn_response(receipt)
 
     def purchase_energy(self, listing_id: int, energy_units: int):
         txn = self.contract.functions.purchaseEnergy(
@@ -62,10 +69,7 @@ class MarketplaceService:
         )
 
         receipt = blockchain_client.send_transaction(txn)
-        return {
-            "transactionHash": receipt.transactionHash.hex(),
-            "status": receipt.status,
-        }
+        return txn_receipt_to_txn_response(receipt)
 
     def cancel_listing(self, listing_id: int):
         txn = self.contract.functions.cancelListing(listing_id).build_transaction(
@@ -76,10 +80,7 @@ class MarketplaceService:
         )
 
         receipt = blockchain_client.send_transaction(txn)
-        return {
-            "transactionHash": receipt.transactionHash.hex(),
-            "status": receipt.status,
-        }
+        return txn_receipt_to_txn_response(receipt)
 
 
 marketplace_service = MarketplaceService()

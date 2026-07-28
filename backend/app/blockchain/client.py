@@ -2,6 +2,13 @@ from web3 import Web3
 
 from app.core.config import RPC_URL, PRIVATE_KEY
 from app.blockchain.loader import load_contract
+from app.schemas.responses import TransactionResponse
+
+
+def txn_receipt_to_txn_response(receipt):
+    return TransactionResponse(
+        transaction_hash=receipt.transactionHash.hex(), status=receipt.status
+    )
 
 
 class BlockchainClient:
@@ -22,9 +29,11 @@ class BlockchainClient:
         )
 
     def send_transaction(self, transaction):
-        signed_tx = self.w3.eth.account.sign_transaction(transaction, self._private_key)
-        tx_hash = self.w3.eth.send_raw_transaction(signed_tx.raw_transaction)
-        return self.w3.eth.wait_for_transaction_receipt(tx_hash)
+        signed_txn = self.w3.eth.account.sign_transaction(
+            transaction, self._private_key
+        )
+        txn_hash = self.w3.eth.send_raw_transaction(signed_txn.raw_transaction)
+        return self.w3.eth.wait_for_transaction_receipt(txn_hash)
 
     def get_nonce(self):
         return self.w3.eth.get_transaction_count(self.wallet_address)

@@ -4,6 +4,8 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from app.blockchain.token import token_service
+from app.schemas.requests import ApproveRequest, MintRequest
+from app.schemas.responses import TransactionResponse
 
 router = APIRouter(prefix="/token", tags=["Token"])
 
@@ -21,21 +23,12 @@ def get_balance(address: str):
         raise HTTPException(status_code=400, detail=str(error))
 
 
-class MintRequest(BaseModel):
-    address: str
-    amount: int
-
-
-@router.post("/mint")
+@router.post("/mint", response_model=TransactionResponse)
 def mint(request: MintRequest):
     return token_service.mint(request.address, request.amount)
 
 
-class ApproveRequest(BaseModel):
-    amount: int
-
-
-@router.post("/approve")
+@router.post("/approve", response_model=TransactionResponse)
 def approve(request: ApproveRequest):
     return token_service.approve(request.amount)
 

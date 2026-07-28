@@ -1,1 +1,3 @@
 blockchain_docker/
+backend/venv/
+**/__pycache__/*

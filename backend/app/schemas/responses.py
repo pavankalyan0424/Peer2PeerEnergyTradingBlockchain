@@ -7,28 +7,28 @@ class TransactionResponse(BaseModel):
 
 
 class ListingResponse(BaseModel):
-    listing_id: int
+    listingId: int
     seller: str
-    initial_energy: int
-    remaining_energy: int
-    price_per_unit: int
+    initialEnergy: int
+    remainingEnergy: int
+    pricePerUnit: int
     status: int
 
 
 class CreateListingResponse(TransactionResponse):
-    listing_id: int
+    listingId: int
     seller: str
-    energy_units: int
-    price_per_unit: int
+    energyUnits: int
+    pricePerUnit: int
 
 
 class PurchaseEnergyResponse(TransactionResponse):
-    listing_id: int
+    listingId: int
     buyer: str
-    energy_units: int
-    total_price: int
+    energyUnits: int
+    totalPrice: int
 
 
 class CancelListingResponse(TransactionResponse):
-    listing_id: int
+    listingId: int
     seller: str

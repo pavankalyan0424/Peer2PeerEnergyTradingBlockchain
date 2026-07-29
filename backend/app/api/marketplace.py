@@ -17,7 +17,7 @@ router = APIRouter(prefix="/marketplace", tags=["Marketplace"])
 def create_listing(request: CreateListingRequest):
     try:
         return marketplace_service.create_listing(
-            request.energy_units, request.price_per_unit
+            request.energyUnits, request.pricePerUnit
         )
     except Exception as error:
         raise HTTPException(status_code=500, detail=str(error))
@@ -49,7 +49,7 @@ def get_listing(listing_id: int):
 @router.post("/listings/{listing_id}/purchase", response_model=PurchaseEnergyResponse)
 def purchase_energy(listing_id: int, request: PurchaseEnergyRequest):
     try:
-        return marketplace_service.purchase_energy(listing_id, request.energy_units)
+        return marketplace_service.purchase_energy(listing_id, request.energyUnits)
     except Exception as error:
         raise HTTPException(status_code=500, detail=str(error))
 

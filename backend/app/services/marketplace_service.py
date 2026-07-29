@@ -27,11 +27,11 @@ class MarketplaceService(BaseBlockchainService):
     def _listing_blockchain_to_api(self, listing_id, listing):
         seller, initial, remaining, price, status = listing
         return ListingResponse(
-            listing_id=listing_id,
+            listingId=listing_id,
             seller=seller,
-            initial_energy=initial,
-            remaining_energy=remaining,
-            price_per_unit=price,
+            initialEnergy=initial,
+            remainingEnergy=remaining,
+            pricePerUnit=price,
             status=status,
         )
 
@@ -59,10 +59,10 @@ class MarketplaceService(BaseBlockchainService):
         )
         event = self.event_decoder.decode_listing_created(receipt)
         return CreateListingResponse(
-            listing_id=event["listingId"],
+            listingId=event["listingId"],
             seller=event["seller"],
-            energy_units=event["energyUnits"],
-            price_per_unit=event["energyUnits"],
+            energyUnits=event["energyUnits"],
+            pricePerUnit=event["energyUnits"],
             transaction_hash=receipt.transactionHash.hex(),
             status=receipt.status,
         )
@@ -73,10 +73,10 @@ class MarketplaceService(BaseBlockchainService):
         )
         event = self.event_decoder.decode_energy_purchase(receipt)
         return PurchaseEnergyResponse(
-            listing_id=event["listingId"],
+            listingId=event["listingId"],
             buyer=event["buyer"],
-            energy_units=event["energyUnits"],
-            total_price=event["totalPrice"],
+            energyUnits=event["energyUnits"],
+            totalPrice=event["totalPrice"],
             transaction_hash=receipt.transactionHash.hex(),
             status=receipt.status,
         )
@@ -87,7 +87,7 @@ class MarketplaceService(BaseBlockchainService):
         )
         event = self.event_decoder.decode_listing_cancelled(receipt)
         return CancelListingResponse(
-            listing_id=event["listingId"],
+            listingId=event["listingId"],
             seller=event["seller"],
             transaction_hash=receipt.transactionHash.hex(),
             status=receipt.status,

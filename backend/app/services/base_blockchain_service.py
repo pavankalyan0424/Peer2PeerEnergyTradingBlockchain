@@ -33,6 +33,7 @@ class BaseBlockchainService:
             return receipt
         except ContractCustomError as e:
             selector = e.args[0]
+            print(selector)
             error_name = self.error_decoder.decode(selector)
             map_exception(error_name)
         except Exception:

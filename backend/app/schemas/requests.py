@@ -2,12 +2,12 @@ from pydantic import BaseModel
 
 
 class CreateListingRequest(BaseModel):
-    energy_units: int
-    price_per_unit: int
+    energyUnits: int
+    pricePerUnit: int
 
 
 class PurchaseEnergyRequest(BaseModel):
-    energy_units: int
+    energyUnits: int
 
 
 class MintRequest(BaseModel):

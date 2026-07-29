@@ -1,0 +1,79 @@
+.listing-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+}
+
+.listing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
+
+.listing-card h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+.listing-card p {
+    margin: 14px 0;
+}
+
+.button-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.button-row button {
+    flex: 1;
+}
+
+.cancel-button {
+    background: #dc2626;
+}
+
+.cancel-button.cancel-button:hover {
+    background: #b91c1c;
+}
+
+.status {
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.status-1 {
+    background: #16a34a;
+}
+
+.status-2{
+background: #2563eb;
+}
+
+.status-3 {
+    background: #dc2626;
+}
+
+.wallet {
+    font-family: monospace;
+    word-break: break-all;
+    color: #555;
+}
+
+.purchase-section {
+    margin-top: 28px;
+}
+
+.purchase-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.purchase-section input {
+    margin-bottom: 20px;
+}

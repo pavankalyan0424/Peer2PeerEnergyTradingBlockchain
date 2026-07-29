@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { ListingStatus, type Listing } from "../models/listing";
-import { cancelListing, pruchaseEnergy } from "../api/marketplace";
+import { ListingStatus, type Listing } from "../../models/listing";
+import { cancelListing, pruchaseEnergy } from "../../api/marketplace";
+import "./ListingCard.css";
+
 
 interface ListingCardProps {
     listing: Listing;
@@ -18,6 +20,10 @@ function getStatus(status: ListingStatus) {
         default:
             return "Unknown";
     }
+}
+
+function shortenAddress(address:string): string{
+    return `${address.slice(0,6)}...${address.slice(-4)}`;
 }
 
 function ListingCard({ listing, onListingUpdate }: ListingCardProps) {
@@ -42,6 +48,9 @@ function ListingCard({ listing, onListingUpdate }: ListingCardProps) {
     }
 
     async function handleCancel() {
+        if (!window.confirm("Cancel this listing?")){
+            return;
+        }
         try {
             await cancelListing(listing.listingId);
             await onListingUpdate();
@@ -52,29 +61,31 @@ function ListingCard({ listing, onListingUpdate }: ListingCardProps) {
     }
 
     return (
-        <div>
+        <div className="listing-card">
             <h3>Listing #{listing.listingId}</h3>
-            <p>Seller: {listing.seller}</p>
-            <p>Initial Energy: {listing.initialEnergy}</p>
-            <p>Remaining Energy: {listing.remainingEnergy}</p>
-            <p>Price Per Unit: {listing.pricePerUnit}</p>
-            <p>Status: {getStatus(listing.status)}</p>
+            <p className="wallet">Seller: {shortenAddress(listing.seller)}</p>
+            <p>Initial Energy {listing.initialEnergy} Units</p>
+            <p>Remaining Energy {listing.remainingEnergy} Units</p>
+            <p>Price Per Unit {listing.pricePerUnit} ECT / Unit</p>
+            <span className={`status status-${listing.status}`}>Status: {getStatus(listing.status)}</span>
             {
                 listing.status === ListingStatus.ACTIVE && (
                     <>
-                        <div>
+                        <div className="purchase-section">
                             <label>Units to Purchase</label>
-                            <br />
+                            <br/>
 
-                            <input type="number" value={purchaseUnits} onChange={(e) => setPurchaseUnits(e.target.value)} />
+                            <input type="number" value={purchaseUnits} onChange={(e) => setPurchaseUnits(e.target.value)} placeholder="Enter units"/>
                         </div>
 
                         <br />
-                        <button onClick={handlePurchase}>Purchase</button>
+                        <div className="button-row">
+                            <button disabled={!purchaseUnits} onClick={handlePurchase}>Purchase</button>
 
-                        <button onClick={handleCancel} style={{margin: "10px"}}>
+                        <button onClick={handleCancel} className="cancel-button">
                             Cancel Listing
                         </button>
+                        </div>
                     </>
                 )
             }

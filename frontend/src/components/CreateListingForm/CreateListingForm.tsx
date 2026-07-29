@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { createListing } from "../api/marketplace";
+import { createListing } from "../../api/marketplace";
+import "./CreateListingForm.css";
 
 interface CreateListingFormProps {
     onListingCreated: () => Promise<void>;
@@ -33,7 +34,7 @@ function CreateListingForm({ onListingCreated }: CreateListingFormProps) {
 
     }
     return (
-        <div>
+        <div className="create-form">
             <h2>Create New Listing</h2>
             <div>
                 <label>Energy Units</label>

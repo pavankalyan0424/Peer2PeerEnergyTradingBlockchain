@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { getListings } from "../api/marketplace";
 import { type Listing } from "../models/listing";
-import ListingCard from "../components/ListingCard";
-import CreateListingForm from "../components/CreateListingForm";
-
+import ListingCard from "../components/ListingCard/ListingCard";
+import CreateListingForm from "../components/CreateListingForm/CreateListingForm";
+import "../pages/MarketplacePage.css";
+import MarketplaceSummary from "../components/MarketplaceSummary/MarketplaceSummary";
 
 
 function MarketplacePage() {
@@ -21,18 +22,20 @@ function MarketplacePage() {
     useEffect(() => { loadListings(); }, []);
 
     return (
-        <div>
+        <div className="marketplace-page">
             <h1>EnerChain</h1>
 
             <h2>Peer-to-Peer Energy Trading Marketplace</h2>
 
             <CreateListingForm onListingCreated={loadListings} />
 
-            <p>Total Listings: {listings.length}</p>
+            <MarketplaceSummary listings={listings}/>
 
-            {listings.map((listing) => (
+            <div className="listing-grid">
+                {listings.map((listing) => (
                 <ListingCard key={listing.listingId} listing={listing} onListingUpdate={loadListings} />
             ))}
+            </div>
         </div>
     )
 

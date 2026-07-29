@@ -1,0 +1,36 @@
+.wallet-summary {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 0 auto 30px;
+    width: 420px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.wallet-summary h2{
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.wallet-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.wallet-row:last-child{
+    border-bottom: none;
+}
+
+.wallet-row span{
+    color: #666;
+}
+
+.wallet-row strong{
+    font-family: monospace;
+    font-size: 14px;
+}

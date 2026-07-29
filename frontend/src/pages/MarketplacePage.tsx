@@ -23,21 +23,20 @@ function MarketplacePage() {
 
     return (
         <div className="marketplace-page">
-            <h1>EnerChain</h1>
-
             <h2>Peer-to-Peer Energy Trading Marketplace</h2>
 
-            <CreateListingForm onListingCreated={loadListings} />
-
-            <MarketplaceSummary listings={listings}/>
+            <div className="marketplace-header">
+                <MarketplaceSummary listings={listings} />
+                <CreateListingForm onListingCreated={loadListings} />
+            </div>
 
             <div className="listing-grid">
                 {listings.map((listing) => (
-                <ListingCard key={listing.listingId} listing={listing} onListingUpdate={loadListings} />
-            ))}
+                    <ListingCard key={listing.listingId} listing={listing} onListingUpdate={loadListings} />
+                ))}
             </div>
         </div>
-    )
+    );
 
 }
 

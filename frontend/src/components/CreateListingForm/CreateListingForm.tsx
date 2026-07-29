@@ -34,7 +34,7 @@ function CreateListingForm({ onListingCreated }: CreateListingFormProps) {
 
     }
     return (
-        <div className="create-form">
+        <div className="dashboard-card">
             <h2>Create New Listing</h2>
             <div>
                 <label>Energy Units</label>

@@ -36,5 +36,24 @@ class BlockchainClient:
     def get_nonce(self, wallet: Wallet):
         return self.w3.eth.get_transaction_count(wallet.address)
 
+    def get_latest_blocks(self, count: int = 10):
+        latest_block = self.w3.eth.block_number
+
+        blocks = []
+        for number in range(latest_block, max(-1, latest_block - count), -1):
+            block = self.w3.eth.get_block(number, full_transactions=False)
+
+            blocks.append(
+                {
+                    "number": block.number,
+                    "hash": block.hash.hex(),
+                    "trasactions": len(block.transactions),
+                    "gas_used": block.gasUsed,
+                    "timestamp": block.timestamp,
+                }
+            )
+
+        return blocks
+
 
 blockchain_client = BlockchainClient(RPC_URL)

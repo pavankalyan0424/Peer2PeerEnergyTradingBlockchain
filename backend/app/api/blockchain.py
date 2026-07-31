@@ -9,3 +9,8 @@ router = APIRouter(prefix="/blockchain", tags=["Blockchain"])
 @router.get("/status")
 def get_status():
     return {"connected": blockchain_client.is_connected()}
+
+
+@router.get("/blocks")
+def latest_blocks():
+    return blockchain_client.get_latest_blocks()

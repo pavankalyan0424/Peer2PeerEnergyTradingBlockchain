@@ -5,6 +5,8 @@ from web3.exceptions import ContractCustomError
 
 import logging
 
+from app.blockchain.wallet import Wallet
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -15,15 +17,15 @@ class BaseBlockchainService:
         self.contract = blockchain_client.get_contract(contract_name)
         self.error_decoder = ErrorDecoder(self.contract.abi)
 
-    def _execute_contract_function(self, contract_function):
+    def _execute_contract_function(self, contract_function, wallet: Wallet):
         try:
             txn = contract_function.build_transaction(
                 {
-                    "from": blockchain_client.wallet_address,
-                    "nonce": blockchain_client.get_nonce(),
+                    "from": wallet.address,
+                    "nonce": blockchain_client.get_nonce(wallet),
                 }
             )
-            receipt = blockchain_client.send_transaction(txn)
+            receipt = blockchain_client.send_transaction(txn, wallet)
             logger.info(
                 "Transaction mined | fn = %s | hash = %s | status = %s",
                 contract_function.fn_name,
@@ -33,7 +35,6 @@ class BaseBlockchainService:
             return receipt
         except ContractCustomError as e:
             selector = e.args[0]
-            print(selector)
             error_name = self.error_decoder.decode(selector)
             map_exception(error_name)
         except Exception:

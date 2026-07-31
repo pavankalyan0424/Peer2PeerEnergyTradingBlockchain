@@ -1,3 +1,4 @@
+from app.blockchain.wallet_manager import wallet_manager
 from app.blockchain.client import blockchain_client, txn_receipt_to_txn_response
 from web3 import Web3
 
@@ -27,7 +28,7 @@ class TokenService(BaseBlockchainService):
 
     def mint(self, address: str, amount: int):
         receipt = self._execute_contract_function(
-            self.contract.functions.mint(address, amount)
+            self.contract.functions.mint(address, amount), wallet_manager.admin
         )
         return TransactionResponse(
             transaction_hash=receipt.transactionHash.hex(), status=receipt.status
@@ -35,12 +36,13 @@ class TokenService(BaseBlockchainService):
 
     def approve(self, amount: int):
         receipt = self._execute_contract_function(
-            self.contract.functions.approve(self.marketplace_address, amount)
+            self.contract.functions.approve(self.marketplace_address, amount),
+            wallet_manager.buyer,
         )
         return txn_receipt_to_txn_response(receipt)
 
     def allowance(self):
-        owner = blockchain_client.wallet_address
+        owner = wallet_manager.buyer.address
         return self.contract.functions.allowance(owner, self.marketplace_address).call()
 
 

@@ -39,14 +39,14 @@ function CreateListingForm({ onListingCreated }: CreateListingFormProps) {
             <div>
                 <label>Energy Units</label>
                 <br />
-                <input type="number" value={energyUnits} onChange={(e) => setEnergyUnits(e.target.value)} />
+                <input type="number" value={energyUnits} onChange={(e) => setEnergyUnits(e.target.value)} placeholder="Enter units"/>
             </div>
             <br />
 
             <div>
                 <label>Price Per Unit</label>
                 <br />
-                <input type="number" value={pricePerUnit} onChange={(e) => setPricePerUnit(e.target.value)} />
+                <input type="number" value={pricePerUnit} onChange={(e) => setPricePerUnit(e.target.value)} placeholder="Enter price"/>
             </div>
             <br />
 

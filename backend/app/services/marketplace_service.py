@@ -1,5 +1,6 @@
 from enum import IntEnum
 
+from app.blockchain.wallet_manager import wallet_manager
 from app.blockchain.client import txn_receipt_to_txn_response
 from app.blockchain.event_decoder import MarketplaceEventDecoder
 from app.schemas.responses import (
@@ -55,7 +56,8 @@ class MarketplaceService(BaseBlockchainService):
 
     def create_listing(self, energy_units: int, price_per_unit: int):
         receipt = self._execute_contract_function(
-            self.contract.functions.createListing(energy_units, price_per_unit)
+            self.contract.functions.createListing(energy_units, price_per_unit),
+            wallet_manager.seller,
         )
         event = self.event_decoder.decode_listing_created(receipt)
         return CreateListingResponse(
@@ -69,7 +71,8 @@ class MarketplaceService(BaseBlockchainService):
 
     def purchase_energy(self, listing_id: int, energy_units: int):
         receipt = self._execute_contract_function(
-            self.contract.functions.purchaseEnergy(listing_id, energy_units)
+            self.contract.functions.purchaseEnergy(listing_id, energy_units),
+            wallet_manager.buyer,
         )
         event = self.event_decoder.decode_energy_purchase(receipt)
         return PurchaseEnergyResponse(
@@ -83,7 +86,7 @@ class MarketplaceService(BaseBlockchainService):
 
     def cancel_listing(self, listing_id: int):
         receipt = self._execute_contract_function(
-            self.contract.functions.cancelListing(listing_id)
+            self.contract.functions.cancelListing(listing_id), wallet_manager.seller
         )
         event = self.event_decoder.decode_listing_cancelled(receipt)
         return CancelListingResponse(

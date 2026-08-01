@@ -28,4 +28,4 @@ class ErrorDecoder:
         return error_map
 
     def decode(self, selector):
-        return self.error_selectors.get(selector)
+        return self.error_selectors.get(selector, "UnknownBlockchainError")

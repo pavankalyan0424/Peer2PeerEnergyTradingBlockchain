@@ -17,9 +17,10 @@ function BuyerPage() {
             const allowResponse = await getAllowance();
             setBalance(balanceResponse.balance);
             setAllowance(allowResponse.allowance);
-        } catch (error) {
+        } catch (error: any) {
             console.error("Load wallet failed with error:", error);
-            alert("Failed to load wallet");
+            const message = error.response?.data?.detail?.message ?? error.response?.data?.detail ?? "Failed to load wallet.";
+            alert(message);
         }
     }
 
@@ -37,9 +38,10 @@ function BuyerPage() {
             await loadWallet();
             setApproveAmount("");
             alert("Marketplace approved successfully");
-        } catch (error) {
+        } catch (error: any) {
             console.error("Approving amount failed with error:", error);
-            alert("Approval failed");
+            const message = error.response?.data?.detail?.message ?? error.response?.data?.detail ?? "Approval failed.";
+            alert(message);
         }
     }
 

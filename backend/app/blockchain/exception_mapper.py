@@ -15,7 +15,8 @@ ERROR_MESSAGES = {
     "ERC20InvalidSender": "Invalid sender address.",
     "ERC20InvalidReciever": "Invalid reciever address.",
     "ERC20InvalidApprover": "Invalid approver address.",
-    "ERC20InvalidSpender": "Invalid spender address."
+    "ERC20InvalidSpender": "Invalid spender address.",
+    "InvalidAddress": "Invalid Ehtereum wallet address."
 }
 
 

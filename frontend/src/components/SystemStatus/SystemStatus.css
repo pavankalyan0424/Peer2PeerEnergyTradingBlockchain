@@ -1,0 +1,12 @@
+.system-status {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-size: 14px;
+}
+
+.system-status span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}

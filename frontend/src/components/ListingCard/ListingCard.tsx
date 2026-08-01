@@ -41,9 +41,10 @@ function ListingCard({ listing, onListingUpdate }: ListingCardProps) {
             await pruchaseEnergy(listing.listingId, units);
             await onListingUpdate();
             setPurchaseUnits("");
-        } catch (error) {
+        } catch (error: any) {
             console.error("Purchase failed:", error);
-            alert("Failed to purchase energy.");
+            const message = error.response?.data?.detail?.message ?? error.response?.data?.detail ?? "Failed to purchase energy.";
+            alert(message);
         }
     }
 
@@ -54,9 +55,10 @@ function ListingCard({ listing, onListingUpdate }: ListingCardProps) {
         try {
             await cancelListing(listing.listingId);
             await onListingUpdate();
-        } catch(error){
+        } catch(error: any){
             console.error("Failed to cancel listing:",error);
-            alert("Failed to cancel listing.");
+            const message = error.response?.data?.detail?.message ?? error.response?.data?.detail ?? "Failed to cancel listing.";
+            alert(message);
         }
     }
 

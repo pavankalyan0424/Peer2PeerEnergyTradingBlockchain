@@ -1,7 +1,11 @@
+
+
+from fastapi import HTTPException
+
 from app.blockchain.client import blockchain_client
 from app.blockchain.error_decoder import ErrorDecoder
 from app.blockchain.exception_mapper import map_exception
-from web3.exceptions import ContractCustomError
+from web3.exceptions import ContractCustomError, InvalidAddress
 
 import logging
 
@@ -39,6 +43,8 @@ class BaseBlockchainService:
                 selector = selector[:10]
             error_name = self.error_decoder.decode(selector)
             map_exception(error_name)
+        except InvalidAddress:
+            map_exception("InvalidAddress")
         except Exception:
             logger.exception(
                 "Transaction failed while executing %s", contract_function.fn_name

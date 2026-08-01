@@ -27,9 +27,10 @@ function CreateListingForm({ onListingCreated }: CreateListingFormProps) {
             setEnergyUnits("");
             setPricePerUnit("");
 
-        } catch (error) {
+        } catch (error: any) {
             console.error("Failed to create listing:", error);
-            alert("Failed to create listing.");
+            const message = error.response?.data?.detail?.message ?? error.response?.data?.detail ?? "Failed to create listing.";
+            alert(message);
         }
 
     }
@@ -39,14 +40,14 @@ function CreateListingForm({ onListingCreated }: CreateListingFormProps) {
             <div>
                 <label>Energy Units</label>
                 <br />
-                <input type="number" value={energyUnits} onChange={(e) => setEnergyUnits(e.target.value)} placeholder="Enter units"/>
+                <input type="number" value={energyUnits} onChange={(e) => setEnergyUnits(e.target.value)} placeholder="Enter units" />
             </div>
             <br />
 
             <div>
                 <label>Price Per Unit</label>
                 <br />
-                <input type="number" value={pricePerUnit} onChange={(e) => setPricePerUnit(e.target.value)} placeholder="Enter price"/>
+                <input type="number" value={pricePerUnit} onChange={(e) => setPricePerUnit(e.target.value)} placeholder="Enter price" />
             </div>
             <br />
 

@@ -15,7 +15,7 @@ class BaseBlockchainService:
 
     def __init__(self, contract_name):
         self.contract = blockchain_client.get_contract(contract_name)
-        self.error_decoder = ErrorDecoder(self.contract.abi)
+        self.error_decoder = ErrorDecoder()
 
     def _execute_contract_function(self, contract_function, wallet: Wallet):
         try:
@@ -35,6 +35,8 @@ class BaseBlockchainService:
             return receipt
         except ContractCustomError as e:
             selector = e.args[0]
+            if isinstance(selector,str) and len(selector) >10:
+                selector = selector[:10]
             error_name = self.error_decoder.decode(selector)
             map_exception(error_name)
         except Exception:

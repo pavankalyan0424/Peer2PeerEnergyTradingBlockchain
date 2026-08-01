@@ -27,7 +27,7 @@ function WalletSummary({title,address, balance, allowance}:WalletSummaryProps){
 
             {allowance!==undefined && (
                 <div className="wallet-row">
-                    <span>Allowance</span>
+                    <span>Marketplace Allowance</span>
                     <strong>{allowance} ECT</strong>
                 </div>
             )}

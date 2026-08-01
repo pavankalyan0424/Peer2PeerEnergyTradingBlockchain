@@ -10,6 +10,12 @@ ERROR_MESSAGES = {
     "ListingNotFound": "Listing does not exist",
     "OnlySellerCanCancelListing": "Only Seller can Cancel listing",
     "PaymentFailed": "Payment Failed",
+    "ERC20InsufficientBalance": "Buyer does not have enough ECT tokens.",
+    "ERC20InsufficientAllowance": "Marketplace is not approved to spend enough ECT.",
+    "ERC20InvalidSender": "Invalid sender address.",
+    "ERC20InvalidReciever": "Invalid reciever address.",
+    "ERC20InvalidApprover": "Invalid approver address.",
+    "ERC20InvalidSpender": "Invalid spender address."
 }
 
 

@@ -1,3 +1,7 @@
 blockchain_docker/
+blockchain/cache
+blockchain/.git
+blockchain/lib
+blockchain/out
 backend/venv/
 **/__pycache__/*
